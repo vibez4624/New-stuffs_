@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Follow Cursor</title>
+<style>
+  /* Your provided CSS */
+  .gradient-wrapper {
+    z-index: -1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+  }
+
+  .gradient-wrapper.mouse-track {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gradient {
+    z-index: 5;
+    width: 90vh;
+    height: 90vh;
+    background-image: radial-gradient(circle farthest-side at 20% 20%, var(--highlight), var(--turquoise-02)), radial-gradient(circle closest-corner at 60% 70%, var(--blue), var(--blue-0));
+    filter: blur(35px);
+    border-radius: 1000px;
+    position: absolute;
+  }
+
+  .gradient.primary {
+    filter: blur(55px);
+    color: aqua;
+  }
+
+  .gradient.secondary {
+    z-index: 4;
+    opacity: .65;
+    color: blue;
+    filter: blur(80px);
+  }
+
+  .gradient.tertiary {
+    z-index: 3;
+    opacity: .5;
+    color: yellow;
+    filter: blur(150px);
+    transform: none;
+  }
+
+  /* Additional CSS for demonstration purposes */
+  body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section-hero {
+    width: 80%;
+    height: 80%;
+    background: #f0f0f0;
+    position: relative;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+    <section class="section-hero">
+        <div class="gradient-wrapper mouse-track">
+            <div class="gradient primary"></div>
+            <div class="gradient secondary"></div>
+            <div class="gradient tertiary"></div>
+        </div>
+    </section>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".section-hero").mousemove(function(event) {
+            var mouseX = event.pageX;
+            var mouseY = event.pageY;
+            $(".gradient-wrapper").css({
+                top: mouseY + "px",
+                left: mouseX + "px"
+            });
+        });
+
+        $(".section-hero").mouseleave(function() {
+            var parentCenterX = $(this).offset().left + $(this).width() / 2;
+            var parentCenterY = $(this).offset().top + $(this).height() / 2;
+            $(".gradient-wrapper").css({
+                top: parentCenterY + "px",
+                left: parentCenterX + "px"
+            });
+        });
+    });
+</script>
+</body>
+</html>
